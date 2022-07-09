@@ -1,0 +1,34 @@
+@chasert "utf-8";
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    background: linear-gradient(180deg, #3c4767 0%, #3c4767 60%, #df563b 100%)
+        0% 0% no-repeat padding-box;
+}
+
+h1.dawn-sns-logo {
+    text-align: center;
+}
+
+.dawn-sns-message {
+    text-align: center;
+    color: #fffefe;
+    font: normal normal normal 28px/42px Meiryo;
+    letter-spacing: 0;
+}
+
+#container {
+    background: #0000002b 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    max-width: 280px;
+    margin: auto;
+    text-align: center;
+    color: #fffefe;
+    font: normal normal normal 14px/21px Meiryo;
+}
+.welcome-title {
+    padding: 34px;
+}
