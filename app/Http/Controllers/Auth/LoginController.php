@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -27,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/top';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -38,17 +39,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    
-    public function login(Request $request){
-        if($request->isMethod('post')){
-            
-            $data=$request->only('mail','password');
+
+    public function login(Request $request)
+    {
+        if ($request->isMethod('post')) {
+
+            $data = $request->only('mail', 'password');
             // ログインが成功したら、トップページへ
             //↓ログイン条件は公開時には消すこと
-            if(Auth::attempt($data)){
+            if (Auth::attempt($data)) {
+                session()->put('passCount', strlen($data['password']));
                 return redirect('/top');
             }
         }
         return view("auth.login");
+    }
+
+    public function loggedOut(Request $request)
+    {
+        return redirect('login');
     }
 }

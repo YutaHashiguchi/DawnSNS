@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -46,20 +48,20 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    public function validator(array $date)
     {
-        return Validator::make($data, [
+        return Validator::make([
             'username' => 'required|string|max:255',
             'mail' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:4|confirmed',
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
+     *
      */
     protected function create(array $data)
     {
@@ -75,17 +77,26 @@ class RegisterController extends Controller
     //     return view("auth.register");
     // }
 
-    public function register(Request $request){
-        if($request->isMethod('post')){
-            $data = $request->input();
-
+    public function register(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $rule = [
+                'username' => 'required|string|max:255',
+                'mail' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:4|confirmed',
+                'password_confirmation' => 'required',
+            ];
+            $request->validate($rule);
+            $data = $request->all();
+            $username = $request->username;
             $this->create($data);
-            return redirect('added');
+            return view('auth.added', ['username' => $username]);
         }
         return view('auth.register');
     }
 
-    public function added(){
+    public function added()
+    {
         return view('auth.added');
     }
 }

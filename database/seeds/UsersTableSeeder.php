@@ -16,9 +16,9 @@ class UsersTableSeeder extends Seeder
             [
                 'username' => '高田',
                 'mail' => 'takada@yayaya.com',
-                'password' => '12345',
-                'bio' => 'こんにちは'
-            ],
+                'password' => bcrypt('123456'),
+                'bio' => 'はじめまして'
+            ]
         ]);
     }
 }
