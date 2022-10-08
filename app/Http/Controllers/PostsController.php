@@ -45,11 +45,6 @@ class PostsController extends Controller
         return redirect('/top');
     }
 
-    public function delete($posts_id)
-    {
-        DB::table('posts')->where('id', $posts_id)->delete();
-        return redirect('/top');
-    }
     public function update(Request $request)
     {
         $request->validate([
@@ -58,7 +53,12 @@ class PostsController extends Controller
 
         $post_id = $request->input('postId');
         $update = $request->input('updatePost');
-        DB::table('posts')->where('id', '=', $post_id)->update(['posts' => $update, 'created_at' => now()]);
+        DB::table('posts')->where('id', $post_id)->update(['posts' => $update, 'created_at' => now()]);
+        return redirect('/top');
+    }
+    public function delete($posts_id)
+    {
+        DB::table('posts')->where('id', $posts_id)->delete();
         return redirect('/top');
     }
 }

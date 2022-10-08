@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Follow;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -17,7 +15,7 @@ class FollowsController extends Controller
     }
     public function follow(Request $request)
     {
-        Follow::create([
+        DB::table('follows')->insert([
             'follow_id' => Auth::user()->id,
             'follower_id' => $request->input('userId'),
         ]);
@@ -27,10 +25,10 @@ class FollowsController extends Controller
 
     public function unfollow(Request $request)
     {
-        $follow = Follow::where('follow_id', Auth::user()->id)
-            ->where('follower_id', $request->input('userId'))->first();
-        $follow->delete();
-
+        DB::table('follows')
+            ->where('follow_id', Auth::user()->id)
+            ->where('follower_id', $request->input('userId'))
+            ->delete();
         return redirect('/');
     }
 
